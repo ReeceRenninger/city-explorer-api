@@ -42,10 +42,12 @@ app.get('/hello',(request,response)=>{
 
 app.get('/weather', (request, response, next) => {
   try {
-    let queriedCity = request.query.weatherData;
-    // let queriedLong = request.query.lon;
+    let queriedCity = request.query.city;
+    let queriedLong = request.query.lon;
+    let queriedLat = request.query.lat;
 
     let dataToParse = weatherData.find(e => e.city_name === queriedCity);
+
     let dataToSend = new Forecast (dataToParse);
 
     response.status(200).send(dataToSend);
@@ -57,7 +59,10 @@ app.get('/weather', (request, response, next) => {
 //** CLASS TO GROOM BULKY DATA */
 class Forecast {
   constructor(weatherObj){
-    this.name = weatherObj.city_name;
+    this.city_name = weatherObj.city_name;
+    // this.lon = weatherObj.lon;
+    //this.date = weatherObj.date
+    //this.description = weatherObj.description
   }
 }
 
