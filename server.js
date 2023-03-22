@@ -8,7 +8,6 @@ require('dotenv').config();
 const cors = require('cors');
 const axios = require('axios');
 
-let weather = require('./data/weather.json');
 
 // ** ONCE WE BRING IN EXPRESS WE CAL IT TO CREATE THE SERVER ***
 // ** app === server
@@ -41,17 +40,19 @@ app.get('/hello', (request, response) => {
   response.status(200).send(`Hello ${userFirstName} ${userLastName}! Welcome to my server!`);
 });
 
-app.get('/weather', (request, response, next) => {
+app.get('/weather', async (request, response, next) => {
   try {
     let lat = request.query.lat;
     let lon = request.query.lon;
-    let cityName = request.query.searchQuery;
+    // let cityName = request.query.searchQuery;
     console.log(request.query);
     // TODO: Change this to the movie url and map through
-    let url = `https://api.weatherbit.io/v2.0/forecast/daily/key=${process.env.WEATHER_API_KEY}/weather?&searchQuery=${cityName}&lat=${lat}&lon=${lon}`;
-    let city = weather.find(e => e.city_name.toLowerCase() === cityName.toLowerCase());
 
-    let mappedWeatherToSend = city.data.map(dailyForecast => {
+    let url = `https://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHER_API_KEY}&days=6&lat=${lat}&lon=${lon}`;
+
+    let weatherResults = await axios.get(url);
+
+    let mappedWeatherToSend = weatherResults.data.data.map(dailyForecast => {
       return new Forecast(dailyForecast);
     });
 
@@ -61,46 +62,46 @@ app.get('/weather', (request, response, next) => {
   }
 });
 //TODO: MOVIE API ENDPOINT BASED OFF CITY NAME
-app.get('/movie', async (request, response, next) => {
+//image link to place before poster path https://image.tmdb.org/t/p/w500/<posterpath>
+app.get('/movies', async (request, response, next) => {
 
   try {
     //TODO: ACCEPT MY QUERIES
     let keywordFromFrontEnd = request.query.searchQuery;
     // TODO: BUILD MY URL FOR AXIOS
-    let url = `https://api.themoviedb.org/3/movie/550?api_key=${process.env.MOVIES_API_KEY}&language=en-US&page=1&include_adult=false&searchQuery=${keywordFromFrontEnd}`;
-
+    let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIES_API_KEY}&language=en-US&page=1&include_adult=false&query=${keywordFromFrontEnd}`;
     let movieResults = await axios.get(url);
 
     // TODO: GROOM THAT DATA TO SEND TO FRONTEND
-    // let moviesToSend = movieResults.data.map(movie => {
-    //   new Movies(movie);
-    // });
+    let moviesToSend = movieResults.data.results.map(movie => {
+      return new Movies(movie);
+    });
 
-    response.status(200).send(movieResults.data);
+    response.status(200).send(moviesToSend);
   } catch (error) {
     next(error);
   }
 
 });
+//** CLASS(ES) TO GROOM BULKY DATA */
+class Forecast {
+  constructor(weatherObj) {
+    this.date = weatherObj.valid_date;
+    this.description = weatherObj.weather.description;
+    this.lon = weatherObj.lon;
+    this.lat = weatherObj.la;
+    //this.city_name = weatherObj.city_name;
+  }
+}
 // TODO: BUILD ANOTHER CLASS TO TRIM DOWN THAT DATA
 class Movies {
   constructor(movieObj){
     this.title=movieObj.original_title;
     this.overview=movieObj.overview;
-
+    this.image = `https://image.tmdb.org/t/p/w500${movieObj.poster_path}`;
   }
 }
 
-//** CLASS TO GROOM BULKY DATA */
-class Forecast {
-  constructor(weatherObj) {
-    this.date = weatherObj.valid_date;
-    this.description = weatherObj.weather.description;
-    //this.city_name = weatherObj.city_name;
-    //this.lon = weatherObj.long;
-    //this.lat = weatherObj.lat;
-  }
-}
 
 //*** CATCH ALL - BE AT THE BOTTOM AND SERVE AS A 404 ERROR MESSAGE */
 app.get('*', (request, response) => {
