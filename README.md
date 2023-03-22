@@ -16,15 +16,15 @@ Later on we will be connecting to a weather API but for now there is a local wea
 
 ![Alt text](WRRC-lab07.png)
 
-### Feature One: Building a server
+### Feature One: Building a server & Connecting to Front End
 
 Estimate of time needed to complete: 120 to 180 minutes (~ 2 to 3 hours)
 
 Start time: 12:30
 
-Finish time:
+Finish time: 18:30
 
-Actual time needed to complete:
+Actual time needed to complete: 6 hours
 
 I am using JavaScript, React, HTML, CSS for the whole application.  For this specific portion we are using express to run the server, dotenv, and cors as middleware.
 <!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
