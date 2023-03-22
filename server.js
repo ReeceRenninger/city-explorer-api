@@ -7,7 +7,7 @@ const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
 
-let weatherData = require('./data/weather.json');
+let weather = require('./data/weather.json');
 
 // ** ONCE WE BRING IN EXPRESS WE CAL IT TO CREATE THE SERVER ***
 // ** app === server
@@ -42,17 +42,18 @@ app.get('/hello',(request,response)=>{
 
 app.get('/weather', (request, response, next) => {
   try {
-    let searchQuery = request.query.city;
-    // let queriedLong = request.query.lon;
-    // let queriedLat = request.query.lat;
+    let lat = request.query.lat;
+    let long = request.query.long;
+    let cityName = request.query.searchQuery;
+    console.log(request.query);
 
-    let dataToUse = weatherData.find(e => e.city_name === searchQuery);
+    let city = weather.find(e => e.city_name.toLowerCase() === cityName.toLowerCase());
 
-    let mappedData = dataToUse.data.map(dailyForecast => {
-      return new Forecast(dailyForecast);
-    });
+    // let mappedData = dataToUse.data.map(dailyForecast => {
+    //   return new Forecast(dailyForecast);
+    // });
 
-    response.status(200).send(mappedData);
+    response.status(200).send(city);
   } catch (error) {
     next(error);
   }
