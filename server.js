@@ -43,7 +43,7 @@ app.get('/hello',(request,response)=>{
 app.get('/weather', (request, response, next) => {
   try {
     let lat = request.query.lat;
-    let long = request.query.long;
+    let lon = request.query.lon;
     let cityName = request.query.searchQuery;
     console.log(request.query);
 
