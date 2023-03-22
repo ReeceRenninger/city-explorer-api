@@ -6,6 +6,7 @@ console.log('Woooo our first server! =)');
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
+const axios = require('axios');
 
 let weather = require('./data/weather.json');
 
@@ -32,7 +33,7 @@ app.get('/', (request, response) => {
   response.status(200).send('Welcome to my server!');
 });
 
-app.get('/hello',(request,response)=>{
+app.get('/hello', (request, response) => {
   console.log(request.query);
   let userFirstName = request.query.firstName;
   let userLastName = request.query.lastName;
@@ -46,7 +47,8 @@ app.get('/weather', (request, response, next) => {
     let lon = request.query.lon;
     let cityName = request.query.searchQuery;
     console.log(request.query);
-
+    // TODO: Change this to the movie url and map through
+    let url = `https://api.weatherbit.io/v2.0/forecast/daily/key=${process.env.WEATHER_API_KEY}/weather?&searchQuery=${cityName}&lat=${lat}&lon=${lon}`;
     let city = weather.find(e => e.city_name.toLowerCase() === cityName.toLowerCase());
 
     let mappedWeatherToSend = city.data.map(dailyForecast => {
@@ -58,10 +60,40 @@ app.get('/weather', (request, response, next) => {
     next(error);
   }
 });
+//TODO: MOVIE API ENDPOINT BASED OFF CITY NAME
+app.get('/movie', async (request, response, next) => {
+
+  try {
+    //TODO: ACCEPT MY QUERIES
+    let keywordFromFrontEnd = request.query.searchQuery;
+    // TODO: BUILD MY URL FOR AXIOS
+    let url = `https://api.themoviedb.org/3/movie/550?api_key=${process.env.MOVIES_API_KEY}&language=en-US&page=1&include_adult=false&searchQuery=${keywordFromFrontEnd}`;
+
+    let movieResults = await axios.get(url);
+
+    // TODO: GROOM THAT DATA TO SEND TO FRONTEND
+    // let moviesToSend = movieResults.data.map(movie => {
+    //   new Movies(movie);
+    // });
+
+    response.status(200).send(movieResults.data);
+  } catch (error) {
+    next(error);
+  }
+
+});
+// TODO: BUILD ANOTHER CLASS TO TRIM DOWN THAT DATA
+class Movies {
+  constructor(movieObj){
+    this.title=movieObj.original_title;
+    this.overview=movieObj.overview;
+
+  }
+}
 
 //** CLASS TO GROOM BULKY DATA */
 class Forecast {
-  constructor(weatherObj){
+  constructor(weatherObj) {
     this.date = weatherObj.valid_date;
     this.description = weatherObj.weather.description;
     //this.city_name = weatherObj.city_name;
@@ -71,7 +103,7 @@ class Forecast {
 }
 
 //*** CATCH ALL - BE AT THE BOTTOM AND SERVE AS A 404 ERROR MESSAGE */
-app.get('*',(request, response) =>{
+app.get('*', (request, response) => {
   response.status(404).send('This route does not exist =(');
 });
 
