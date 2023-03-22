@@ -61,7 +61,7 @@ app.get('/weather', (request, response, next) => {
 //** CLASS TO GROOM BULKY DATA */
 class Forecast {
   constructor(weatherObj){
-    // this.city_name = weatherObj.city_name;
+    //this.city_name = weatherObj.city_name;
     //this.lon = weatherObj.lon;
     //this.lat = weatherObj.lat;
     this.date = weatherObj.valid_date;
