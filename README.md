@@ -11,7 +11,10 @@ Building a backend server to access a weather API to allow our city-explorer Rea
 <!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
 Build a backend server using npm init in terminal to get your package.json started.  Ensure you have express, dotenv, and cors installed to allow for your server to run and have appropriate middleware.  Make sure you have your gitignore(specifically ensure .env is included in this file) and eslintrc file.
 Later on we will be connecting to a weather API but for now there is a local weather json file you can use from the 301d97 class repo.
+
 ## Architecture
+
+![Alt text](WRRC-lab07.png)
 
 ### Feature One: Building a server
 
