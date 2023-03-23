@@ -44,7 +44,7 @@ app.get('/weather', async (request, response, next) => {
   try {
     let lat = request.query.lat;
     let lon = request.query.lon;
-    // let cityName = request.query.searchQuery;
+
     console.log(request.query);
     // TODO: Change this to the movie url and map through
 
