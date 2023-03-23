@@ -6,8 +6,6 @@ console.log('Woooo our first server! =)');
 const express = require('express');
 require('dotenv').config();
 const cors = require('cors');
-const axios = require('axios');
-
 const getWeather = require('./modules/weather.js');
 const getMovies = require('./modules/movies.js');
 
@@ -28,6 +26,8 @@ app.listen(PORT, () => console.log(`We are running on port ${PORT}`));
 app.get('/weather', getWeather);
 //!! CALLS MY MOVIES FUNCTION
 app.get('/movies', getMovies);
+
+// INTRO TO CREATING A SERVER WITH SIMPLE END POINT
 // app.get('/', (request, response) => {
 //   response.status(200).send('Welcome to my server!');
 // });
