@@ -30,6 +30,7 @@ class Movies {
     this.image = `https://image.tmdb.org/t/p/w500${movieObj.poster_path}`;
   }
 }
+
 // function getMoviesRefactor(request, response, next) {
 
 
