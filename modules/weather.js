@@ -30,7 +30,6 @@ class Forecast {
     this.description = weatherObj.weather.description;
     this.lon = weatherObj.lon;
     this.lat = weatherObj.la;
-    //this.city_name = weatherObj.city_name;
   }
 }
 
