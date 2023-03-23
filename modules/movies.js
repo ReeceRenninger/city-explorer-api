@@ -1,28 +1,26 @@
 'use strict';
 const axios = require('axios');
 
-async function getMoviesRefactor(request, response, next) {
-  try {
+function getMoviesRefactor(request, response, next) {
 
-    let keywordFromFrontEnd = request.query.searchQuery;
 
-    let baseUrl = `https://api.themoviedb.org/3/search/movie?&language=en-US&page=1&include_adult=false`;
+  let keywordFromFrontEnd = request.query.searchQuery;
 
-    let queryStrings = {
-      client_id: process.env.MOVIES_API_KEY,
-      query: keywordFromFrontEnd
-    };
+  let baseUrl = `https://api.themoviedb.org/3/search/movie?&language=en-US&page=1&include_adult=false`;
 
-    let movieResults = await axios.get(baseUrl, {params: queryStrings});
+  let queryStrings = {
+    client_id: process.env.MOVIES_API_KEY,
+    query: keywordFromFrontEnd
+  };
 
-    let moviesToSend = movieResults.data.results.map(movie => {
-      return new Movies(movie);
-    });
+  let movieResults = axios.get(baseUrl, { params: queryStrings });
 
-    response.status(200).send(moviesToSend);
-  } catch (error) {
-    next(error);
-  }
+  let moviesToSend = movieResults.data.results.map(movie => {
+    return new Movies(movie);
+  });
+
+  response.status(200).send(moviesToSend);
+
 }
 
 
