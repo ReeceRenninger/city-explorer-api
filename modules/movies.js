@@ -31,6 +31,8 @@ class Movies {
   }
 }
 
+module.exports = getMovies;
+
 // function getMoviesRefactor(request, response, next) {
 
 
@@ -64,5 +66,3 @@ class Movies {
 
 
 
-
-module.exports = getMovies;
