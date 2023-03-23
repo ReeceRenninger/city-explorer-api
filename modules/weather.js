@@ -10,7 +10,7 @@ async function getWeather(request, response, next) {
     console.log(request.query);
     // TODO: Change this to the movie url and map through
 
-    let url = `https://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHER_API_KEY}&days=6&lat=${lat}&lon=${lon}`;
+    let url = `https://api.weatherbit.io/v2.0/forecast/daily?key=${process.env.WEATHER_API_KEY}&days=7&lat=${lat}&lon=${lon}`;
 
     let weatherResults = await axios.get(url);
 
