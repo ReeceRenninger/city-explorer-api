@@ -14,7 +14,9 @@ Later on we will be connecting to a weather API but for now there is a local wea
 
 ## Architecture
 
-![Alt text](WRRC-lab07.png)
+![Lab07 WRRC](WRRC-lab07.png)
+
+![Lab08 WRRC](WRRC-lab08.png)
 
 ### Feature One: Building a server & Connecting to Front End
 
@@ -33,6 +35,7 @@ I am using JavaScript, React, HTML, CSS for the whole application.  For this spe
 <!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an example:
 
 01-01-2001 4:59pm - Application now has a fully-functional express server, with a GET route for the location resource. -->
+03/22/2023 17:40 - Server is connected to Weather API(WeatherBit) and Movie API (The Movie DB)
 
 ## Credit and Collaborations
 <!-- Give credit (and a link) to other people or resources that helped you build this application. -->
