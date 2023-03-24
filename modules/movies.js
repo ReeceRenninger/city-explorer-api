@@ -1,21 +1,37 @@
 'use strict';
 const axios = require('axios');
 
+let cache = {};
+
 async function getMovies(request, response, next) {
 
   try {
 
     let keywordFromFrontEnd = request.query.searchQuery;
+    let key = `${keywordFromFrontEnd}- Movie`;
 
-    let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIES_API_KEY}&language=en-US&page=1&include_adult=false&query=${keywordFromFrontEnd}`;
-    let movieResults = await axios.get(url);
+    if (cache[key] && (Date.now() - cache[key].timestamp) < 20000) {
+      console.log('Movie cache was hit!', cache);
 
-    // TODO: GROOM THAT DATA TO SEND TO FRONTEND
-    let moviesToSend = movieResults.data.results.map(movie => {
-      return new Movies(movie);
-    });
+    } else {
+      console.log('No items in moviesCache');
+      let url = `https://api.themoviedb.org/3/search/movie?api_key=${process.env.MOVIES_API_KEY}&language=en-US&page=1&include_adult=false&query=${keywordFromFrontEnd}`;
+      let movieResults = await axios.get(url);
 
-    response.status(200).send(moviesToSend);
+      // TODO: GROOM THAT DATA TO SEND TO FRONTEND
+      let moviesToSend = movieResults.data.results.map(movie => {
+        return new Movies(movie);
+      });
+
+      //** BUILD INTO CACHE */
+      cache[key] ={
+        data: moviesToSend,
+        timestamp: Date.now()
+      }
+
+      response.status(200).send(moviesToSend);
+    }
+
   } catch (error) {
     next(error);
   }
