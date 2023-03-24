@@ -27,7 +27,7 @@ async function getMovies(request, response, next) {
       cache[key] ={
         data: moviesToSend,
         timestamp: Date.now()
-      }
+      };
 
       response.status(200).send(moviesToSend);
     }
