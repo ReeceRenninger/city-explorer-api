@@ -14,8 +14,8 @@ async function getWeather(request, response, next) {
     let lon = request.query.lon;
     let key = `lat: ${lat} lon:${lon}- Weather`; // key = lat lon -Weather
 
-
-    if (cache[key] && (Date.now() - cache[key].timestamp) < 8.64e+7) {
+    // 12 hour cache
+    if (cache[key] && (Date.now() - cache[key].timestamp) < 4.32e+7) {
 
       console.log('Weather cache was hit!', cache);
 

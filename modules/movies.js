@@ -9,8 +9,8 @@ async function getMovies(request, response, next) {
 
     let keywordFromFrontEnd = request.query.searchQuery;
     let key = `${keywordFromFrontEnd}- Movie`;
-
-    if (cache[key] && (Date.now() - cache[key].timestamp) < 20000) {
+    // 12 hour cache
+    if (cache[key] && (Date.now() - cache[key].timestamp) < 4.32e+7) {
       console.log('Movie cache was hit!', cache);
 
     } else {

@@ -38,6 +38,16 @@ Finish time: 12:15
 
 Actual time needed to complete: 15 minutes
 
+### Feature Three: Adding Cache
+
+Estimate of time needed to complete: 30 minutes
+
+Start time: 12:00
+
+Finish time: 12:20
+
+Actual time needed to complete: 20 minutes
+
 I am using JavaScript, React, HTML, CSS for the whole application.  For this specific portion we are using express to run the server, dotenv, and cors as middleware.
 
 ## Change Log
@@ -45,6 +55,8 @@ I am using JavaScript, React, HTML, CSS for the whole application.  For this spe
 03/22/2023 17:40 - Server is connected to Weather API(WeatherBit) and Movie API (The Movie DB)
 
 03/23/2023 12:50 - Server is modularized
+
+03/24/2023 12:25 - Cache is implemented on both modules
 
 ## Credit and Collaborations
 
